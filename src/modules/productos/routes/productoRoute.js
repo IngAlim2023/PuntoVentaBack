@@ -6,5 +6,6 @@ const router = express.Router()
 
 router.get('/productos', controller.getProductsC);
 router.post('/crearProducto', upload.single("foto"), controller.createProductC);
+router.delete('/eliminarProducto/:id', controller.deleteProductC);
 
 export default router;

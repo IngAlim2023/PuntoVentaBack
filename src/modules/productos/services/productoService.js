@@ -25,4 +25,13 @@ async function getProducts() {
     }
 }
 
-export { createProduct, getProducts };
+async function deleteProduct(id) {
+    try{
+        return await Producto.delete(id);
+    } catch(e){
+        console.error("Error al eliminar el producto", e.message);
+        throw new Error("No se pudo eliminar el producto. Intente de nuevo");
+    }
+}
+
+export { createProduct, getProducts, deleteProduct };
