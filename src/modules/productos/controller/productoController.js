@@ -48,7 +48,10 @@ controller.getProductsC = async (req, res, next) => {
 controller.deleteProductC = async (req, res, next) => {
   try {
     const id = req.params.id;
-    const findProduct = await Producto.findProductById(id);
+    const productoObject = {
+      idPrd: id
+    }
+    const findProduct = await Producto.findProductById(productoObject);
     if (!findProduct) {
       return res.status(404).json(ResponseStructure.error("Producto no encontrado.", 404));
     }

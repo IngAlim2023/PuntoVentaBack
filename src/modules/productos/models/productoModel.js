@@ -34,13 +34,12 @@ export const Producto = {
       "SELECT foto FROM productos WHERE idPrd = ?",
       [id]
     );
-    
-    if (producto > 0) {
-        const imgPath = path.join(uploadDir, producto[0].foto);
-        if (fs.existsSync(imgPath)) {
-          fs.unlinkSync(imgPath);
-        }
+
+    const imgPath = path.join(uploadDir, producto[0].foto);
+    if (fs.existsSync(imgPath)) {
+      fs.unlinkSync(imgPath);
     }
+
     const sql = "DELETE FROM productos WHERE idPrd = ?";
     return await pool.query(sql, [id]);
   },
