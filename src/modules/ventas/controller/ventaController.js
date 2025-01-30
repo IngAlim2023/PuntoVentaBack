@@ -6,7 +6,8 @@ export const controller = {};
 controller.createVentaC = async (req, res, next) => {
     try {
         const ventaData = req.body;
-        const newVenta = await createVenta(ventaData);
+        const empleado = req.user;
+        const newVenta = await createVenta(ventaData, empleado);
         return res.status(201).json(ResponseStructure.success(newVenta, "Venta creada con exito."));
     } catch (e) {
         return res.status(500).json(ResponseStructure.error(e.message, 500));
