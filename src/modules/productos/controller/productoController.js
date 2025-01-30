@@ -1,4 +1,4 @@
-import { createProduct, getProducts, deleteProduct } from "../services/productoService.js";
+import { createProduct, getProducts, deleteProduct, getProductById } from "../services/productoService.js";
 import { Producto } from "../models/productoModel.js";
 import ResponseStructure from "../../../helpers/ResponseStructure.js";
 
@@ -32,6 +32,18 @@ controller.createProductC = async (req, res, next) => {
       .json(
         ResponseStructure.success(newProduct, "Producto creado con éxito.")
       );
+  } catch (e) {
+    return res.status(500).json(ResponseStructure.error(e.message, 500));
+  }
+};
+controller.getProductsByIdC = async (req, res, next) => {
+  const id = req.params.id;
+    const productoObject = {
+      idPrd: id
+    }
+  try {
+    const productos = await getProductById(productoObject);
+    return res.status(200).json(ResponseStructure.success(productos, 200));
   } catch (e) {
     return res.status(500).json(ResponseStructure.error(e.message, 500));
   }

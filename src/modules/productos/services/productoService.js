@@ -16,6 +16,14 @@ async function createProduct(productoData) {
     throw new Error("No se pudo crear el producto. Intente de nuevo");
   }
 }
+async function getProductById(id) {
+    try{
+        return await Producto.findProductById(id);
+    } catch(e){
+        console.error("Error al buscar el producto", e.message);
+        throw new Error("No se pudo obtener el producto. Intente de nuevo");
+    }
+}
 async function getProducts() {
     try{
         return await Producto.findAll();
@@ -34,4 +42,4 @@ async function deleteProduct(id) {
     }
 }
 
-export { createProduct, getProducts, deleteProduct };
+export { createProduct, getProducts, deleteProduct, getProductById };
