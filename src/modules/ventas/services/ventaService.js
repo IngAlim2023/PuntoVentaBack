@@ -1,7 +1,7 @@
 import { Venta } from "../models/ventaModel.js";
 
 async function createVenta(ventaData, empleado) {
-  const fieldsSale = ["total", "Empleados_idEmpleado", "cliente_idcliente"];
+  const fieldsSale = ["total", "cliente_idcliente"];
 
   const fieldsProduct = ["cantidad", "subtotal", "Productos_idPrd"];
 
