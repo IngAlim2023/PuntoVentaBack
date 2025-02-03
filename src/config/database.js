@@ -2,8 +2,8 @@ import  mysql  from "mysql2/promise";
 
 export const pool = mysql.createPool({
     host: 'localhost',
-    user: 'root',
-    password: '',
+    user: process.env.USER_MYSQL,
+    password: process.env.PASSWORD_MYSQL,
     database: 'gestion_tienda',
     waitForConnections: true,
     connectionLimit: 0,
