@@ -9,6 +9,6 @@ router.get('/productos', controller.getProductsC);
 router.post('/crearProducto', upload.single("foto"), controller.createProductC);
 router.delete('/eliminarProducto/:id', deletePhoto, controller.deleteProductC);
 router.get('/verProducto/:id', controller.getProductsByIdC);
-router.put('/editarProducto/:id', deletePhoto, upload.single("foto"), controller.updateProductC);
+router.put('/editarProducto/:id', upload.single("foto"), deletePhoto, controller.updateProductC);
 
 export default router;

@@ -1,33 +1,37 @@
 import multer from "multer";
 import path from "path";
-import fs from "fs";
+import fs from "fs/promises";
 
-// Asegurarse de que la carpeta 'uploads' exista
+// Asegurar que la carpeta 'uploads' exista de forma asíncrona
 const uploadDir = "./src/uploads/";
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
+
+(async () => {
+  try {
+    await fs.mkdir(uploadDir, { recursive: true });
+  } catch (error) {
+    console.error("Error al crear la carpeta de uploads:", error);
+  }
+})();
 
 // Configuración de multer
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination: (req, file, cb) => {
     cb(null, uploadDir); // Carpeta donde se guardarán las imágenes
   },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname));
+  filename: (req, file, cb) => {
+    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
+    cb(null, `${uniqueSuffix}${path.extname(file.originalname)}`);
   },
 });
 
 // Validación de tipo de archivo
-function fileFilter(req, file, cb) {
+const fileFilter = (req, file, cb) => {
   const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
-  if (allowedTypes.includes(file.mimetype)) {
-    cb(null, true);
-  } else {
-    cb(new Error("Tipo de archivo no permitido. Solo se permiten imágenes."), false);
+  if (!allowedTypes.includes(file.mimetype)) {
+    return cb(new multer.MulterError("LIMIT_UNEXPECTED_FILE", "Tipo de archivo no permitido"), false);
   }
-}
+  cb(null, true);
+};
 
 // Configuración final de multer
 export const upload = multer({
