@@ -89,7 +89,7 @@ controller.updateProductC = async (req, res, next) => {
   const id = req.params.id;
   const productoData = req.body;
   const productoExists = await Producto.findProductByCodBarras(productoData);
-
+   
   //validacion que el producto existe:
   const productoObject = {
     idPrd: id,
@@ -108,12 +108,8 @@ controller.updateProductC = async (req, res, next) => {
       .status(400)
       .json(ResponseStructure.error("La imagen es obligatoria.", 400));
   }
-  if (productoExists) {
-    return res
-      .status(400)
-      .json(
-        ResponseStructure.error("El codigo de barras ya esta siendo utilizado.", 400)
-      );
+  if (productoExists && productoExists.idPrd !== parseInt(id)) {
+    return res.status(400).json(ResponseStructure.error("El código de barras ya está siendo utilizado por otro producto.", 400));
   }
   try {
     const producto = await updateProduct(id, productoData);

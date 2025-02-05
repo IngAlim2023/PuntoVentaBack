@@ -117,7 +117,7 @@ async function userLogin(req, res) {
     } else {
       const token = await createToken(user);
       res.cookie("token", token, {
-        secure: false, //process.env.NODE_ENV === "production"
+        secure: process.env.NODE_ENV === "production",
         maxAge: 30 * 60 * 1000,
       });
       res.json({
