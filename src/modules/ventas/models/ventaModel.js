@@ -22,15 +22,11 @@ export const Venta = {
     const [rows] = await pool.query(sql);
     return rows; // Devolver todas las filas
   },
-  create: async function (ventaData, empleado) {
+  create: async function (ventaData) {
     const idVenta = uuidv4();
-    // Para insertar el empleado directamente desde el backend y no desde el frontend ya que estaba causando problemas con las variables globales
-    const {idusuario} = empleado;
-    const [row] = await pool.query("SELECT idEmpleado FROM empleados WHERE usuarios_idusuario = ?", [idusuario]);
-    const idEmpledo = row[0].idEmpleado;
     // Insertar en la tabla `ventas`
     const ventaSql = "INSERT INTO ventas (idVenta, total, Empleados_idEmpleado, cliente_idcliente) VALUES (?,?,?,?)";
-    await pool.query(ventaSql, [idVenta, ventaData.total, idEmpledo, ventaData.cliente_idcliente]);
+    await pool.query(ventaSql, [idVenta, ventaData.total, ventaData.Empleados_idEmpleado, ventaData.cliente_idcliente]);
 
     const detalleVenta =
       "INSERT INTO detalleventa (cantidad, subtotal, Productos_idPrd, Ventas_idVenta) VALUES(?,?,?,?)";

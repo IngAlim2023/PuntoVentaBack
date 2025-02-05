@@ -1,7 +1,7 @@
 import { Venta } from "../models/ventaModel.js";
 
-async function createVenta(ventaData, empleado) {
-  const fieldsSale = ["total", "cliente_idcliente"];
+async function createVenta(ventaData) {
+  const fieldsSale = ["total", "cliente_idcliente", "Empleados_idEmpleado"];
 
   const fieldsProduct = ["cantidad", "subtotal", "Productos_idPrd"];
 
@@ -23,7 +23,7 @@ async function createVenta(ventaData, empleado) {
     }
   });
   try {
-    const newVenta = await Venta.create(ventaData, empleado);
+    const newVenta = await Venta.create(ventaData);
     return newVenta;
   } catch (e) {
     console.error("Error al crear al crear la venta", e.message);
