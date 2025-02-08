@@ -9,6 +9,9 @@ import productoRoute from "../modules/productos/routes/productoRoute.js";
 import ventaRoute from "../modules/ventas/routes/ventaRoute.js";
 import usuarioRoute from "../modules/usuarios/routes/usuarioRoute.js";
 
+//prueba validacion usuario:
+import jwt from "jsonwebtoken";
+
 dotenv.config({ path: "./src/.env" });
 export const appBackend = express();
 
@@ -29,6 +32,18 @@ appBackend.use(cookieParser());
 appBackend.use(cors(corsOptions));
 appBackend.use(morgan("dev"));
 appBackend.use(express.json());
+
+//Prueba para validacion de usuario y rutas protegidas:
+appBackend.use((req, res, next)=>{
+  const {token} = req.cookies;
+  let data = null;
+  req.session = {user:null};
+  try{
+    data = jwt.verify(token, process.env.JWT_PRIVATE);
+    req.session.user = data;
+  }catch{}
+  next();
+})
 
 appBackend.use("/api/v1/productos", productoRoute);
 appBackend.use("/api/v1/ventas", ventaRoute);

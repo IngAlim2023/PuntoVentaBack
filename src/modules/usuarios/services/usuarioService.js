@@ -119,7 +119,9 @@ async function userLogin(req, res) {
       res.cookie("token", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        maxAge: 30 * 60 * 1000,
+        sameSite: "strict",//Seguridad del token solo en el mismo dominio
+        maxAge: 1000 * 60 * 60, // 1 hora de duracion
+
       });
       res.json({
         success: "Inicio de sesión correcto.",
