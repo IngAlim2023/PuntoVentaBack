@@ -30,8 +30,15 @@ const port = 3000;
 appBackend.disable("x-powered-by");
 appBackend.use(cookieParser());
 appBackend.use(cors(corsOptions));
-appBackend.use(morgan("combined"));
+appBackend.use(morgan("common"));
 appBackend.use(express.json());
+
+//Atrapar ips con el middleware prueba:
+app.use((req, res, next) => {
+  const clientIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  console.log(`Request from IP: ${clientIp}`);
+  next();
+});
 
 //Prueba para validacion de usuario y rutas protegidas:
 appBackend.use((req, res, next)=>{
