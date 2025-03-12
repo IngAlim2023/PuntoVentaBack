@@ -30,7 +30,7 @@ const port = 3000;
 appBackend.disable("x-powered-by");
 appBackend.use(cookieParser());
 appBackend.use(cors(corsOptions));
-appBackend.use(morgan("common"));
+appBackend.use(morgan("combined"));
 appBackend.use(express.json());
 
 //Atrapar ips con el middleware prueba:
