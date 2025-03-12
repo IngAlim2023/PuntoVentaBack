@@ -30,7 +30,7 @@ const port = 3000;
 appBackend.disable("x-powered-by");
 appBackend.use(cookieParser());
 appBackend.use(cors(corsOptions));
-appBackend.use(morgan("dev"));
+appBackend.use(morgan("combined"));
 appBackend.use(express.json());
 
 //Prueba para validacion de usuario y rutas protegidas:
