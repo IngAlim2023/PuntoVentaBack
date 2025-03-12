@@ -33,6 +33,17 @@ appBackend.use(cors(corsOptions));
 appBackend.use(morgan("combined"));
 appBackend.use(express.json());
 
+//Bloqueoe de ips:
+appBackend.use((req, res, next)=>{
+  const bloqIp =['43.134.40.201', '43.134.124.54', '43.134.116.36']
+  const clientIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+
+  if(bloqIp.includes(clientIp)){
+    return res.status(403).send('Acceso denegado.');
+  }
+  next();
+})
+
 //Atrapar ips con el middleware prueba:
 appBackend.use((req, res, next) => {
   const clientIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
