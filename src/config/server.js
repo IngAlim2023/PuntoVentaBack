@@ -34,7 +34,7 @@ appBackend.use(morgan("common"));
 appBackend.use(express.json());
 
 //Atrapar ips con el middleware prueba:
-app.use((req, res, next) => {
+appBackend.use((req, res, next) => {
   const clientIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
   console.log(`Request from IP: ${clientIp}`);
   next();
